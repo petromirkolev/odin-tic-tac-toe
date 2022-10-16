@@ -10,9 +10,33 @@
   <body>
     <div class="page-container">
       <section class="header-container">
-        <h1 class="game-heading">Tic Tac Toe</h1>
+        <div class="upper-section">
+          <h3 class="player-score">YOUR SCORE:</h3>
+          <p class="player-score-number">0</p>
+          <h1 class="game-heading">TIC TAC TOE</h1>
+          <h3 class="ai-score">AI SCORE:</h3>
+          <p class="ai-score-number">0</p>
+        </div>
+        <div class="lower-section">
+          <button class="play-new-game">NEW GAME</button>
+          <button class="view-highscore">HIGHSCORES</button>
+          <button class="observer-mode">OBSERVER MODE</button>
+          <button class="multiplayer-mode">MULTIPLAYER</button>
+        </div>
       </section>
-      <section class="game-field-container"></section>
+      <section class="game-field-container">
+        <div class="game-board">
+          <p>x</p>
+          <p>x</p>
+          <p>x</p>
+          <p>x</p>
+          <p>x</p>
+          <p>x</p>
+          <p>x</p>
+          <p>x</p>
+          <p>x</p>
+        </div>
+      </section>
       <section class="footer-container"></section>
     </div>
     <script defer src="script.js"></script>

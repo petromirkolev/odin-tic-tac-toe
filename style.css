@@ -136,9 +136,13 @@ table {
   font-family: "grunge";
   src: url(fonts/RuasMediumGrunge.ttf);
 }
-
-body {
-  font-family: "DOCALLISME";
+@font-face {
+  font-family: "if";
+  src: url(fonts/if.regular.ttf);
+}
+@font-face {
+  font-family: "Esquisito";
+  src: url(fonts/Esquisitoregular-OOze\ 2.ttf);
 }
 
 .page-container {
@@ -150,21 +154,66 @@ body {
   flex-direction: column-reverse;
 }
 .header-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
   width: 100vw;
-  height: 29vh;
+  height: 25vh;
+}
+.upper-section {
+  font-family: "Esquisito";
+  display: flex;
+  height: 10vh;
+  justify-content: space-evenly;
+  align-items: center;
+  opacity: 0.75;
+}
+.upper-section h1 {
+  font-size: 8rem;
+}
+.upper-section h3 {
+  font-size: 4rem;
+  margin-right: -5vw;
+}
+.upper-section p {
+  font-size: 6rem;
+}
+
+.lower-section {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-h1 {
-  opacity: 0.5;
-  font-size: 12rem;
+.lower-section button {
+  width: 10vw;
+  height: 5vh;
+  border-radius: 5px;
+  border-top: 6px solid black;
+  border-right: 7px solid black;
+  font-size: 2rem;
+  text-align: center;
+  font-family: "grunge";
+  transition: transform 50ms ease-in-out;
+}
+.lower-section button:active {
+  transform: scale(0.95);
 }
 .game-field-container {
+  display: flex;
+  justify-content: center;
   width: 100vw;
-  height: 64vh;
+  height: 70vh;
+}
+.game-board {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  font-size: 4rem;
+  box-shadow: 10px, 10px, 10px, black;
+  width: 65vh;
+  height: 65vh;
 }
 .footer-container {
   width: 100vw;
-  height: 7vh;
+  height: 2vh;
 }
