@@ -209,14 +209,14 @@ table {
 }
 .mark-circle {
   box-sizing: border-box;
-  width: 12em;
-  height: 12em;
-  border: 40px solid rgba(0, 0, 0, 0.6);
+  width: 80%;
+  height: 80%;
+  border: 30px solid rgba(0, 0, 0, 0.6);
   border-radius: 50%;
 }
 .mark-cross {
   color: rgba(0, 0, 0, 0.6);
-  font-size: 15em;
+  font-size: calc(100% + 10em);
 }
 .footer-container {
   width: 100vw;
