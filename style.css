@@ -127,32 +127,22 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
-
-@font-face {
-  font-family: "DOCALLISME";
-  src: url(fonts/DOCALLISME\ ON\ STREET.ttf);
-}
+/* Import font */
 @font-face {
   font-family: "grunge";
   src: url(fonts/RuasMediumGrunge.ttf);
 }
-@font-face {
-  font-family: "if";
-  src: url(fonts/if.regular.ttf);
-}
-@font-face {
-  font-family: "Esquisito";
-  src: url(fonts/Esquisitoregular-OOze\ 2.ttf);
-}
-
+/* General page layout styling */
 .page-container {
   background-image: url("images/grunge-concret.jpg");
-  background-size: 100vw 100vh;
-  width: 100vw;
-  height: 100vh;
+  background-size: cover;
+  width: auto;
+  height: 100%;
   display: flex;
   flex-direction: column-reverse;
+  align-items: center;
 }
+/* Header styling */
 .header-container {
   display: flex;
   flex-direction: column;
@@ -161,7 +151,8 @@ table {
   height: 25vh;
 }
 .upper-section {
-  font-family: "Esquisito";
+  font-family: "grunge";
+  font-weight: bold;
   display: flex;
   height: 10vh;
   justify-content: space-evenly;
@@ -169,49 +160,63 @@ table {
   opacity: 0.75;
 }
 .upper-section h1 {
-  font-size: 8rem;
+  font-size: 5rem;
 }
 .upper-section h3 {
-  font-size: 4rem;
-  margin-right: -5vw;
+  font-size: 3rem;
+  margin-right: -14vw;
 }
 .upper-section p {
   font-size: 6rem;
 }
-
 .lower-section {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .lower-section button {
-  width: 10vw;
-  height: 5vh;
+  width: 15vw;
+  height: 7vh;
   border-radius: 5px;
   border-top: 6px solid black;
   border-right: 7px solid black;
-  font-size: 2rem;
+  margin: 0 5px 0 5px;
+  font-size: 2.8rem;
   text-align: center;
   font-family: "grunge";
   transition: transform 50ms ease-in-out;
 }
 .lower-section button:active {
   transform: scale(0.95);
+  border-top: 4px solid black;
+  border-right: 4px solid black;
 }
+/* Game pad styling */
 .game-field-container {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  width: 73vh;
+  height: 73vh;
+  color: white;
+}
+.game-field-container div {
+  border: 4px solid rgba(0, 0, 0, 0.15);
   display: flex;
   justify-content: center;
-  width: 100vw;
-  height: 70vh;
+  align-items: center;
 }
-.game-board {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
-  font-size: 4rem;
-  box-shadow: 10px, 10px, 10px, black;
-  width: 65vh;
-  height: 65vh;
+.mark-circle {
+  box-sizing: border-box;
+  width: 12em;
+  height: 12em;
+  border: 40px solid rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+}
+.mark-cross {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 15em;
 }
 .footer-container {
   width: 100vw;
