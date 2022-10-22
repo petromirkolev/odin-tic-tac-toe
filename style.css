@@ -134,6 +134,8 @@ table {
 }
 /* General page layout styling */
 .page-container {
+  font-family: "grunge";
+
   background-image: url("images/grunge-concret.jpg");
   background-size: cover;
   width: auto;
@@ -151,7 +153,6 @@ table {
   height: 25vh;
 }
 .upper-section {
-  font-family: "grunge";
   font-weight: bold;
   display: flex;
   height: 10vh;
@@ -175,6 +176,7 @@ table {
   align-items: center;
 }
 .lower-section button {
+  font-family: "grunge";
   width: 15vw;
   height: 7vh;
   border-radius: 5px;
@@ -183,7 +185,6 @@ table {
   margin: 0 5px 0 5px;
   font-size: 2.8rem;
   text-align: center;
-  font-family: "grunge";
   transition: transform 50ms ease-in-out;
 }
 .lower-section button:active {

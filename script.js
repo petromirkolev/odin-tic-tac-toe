@@ -1,6 +1,6 @@
 "use strict";
 
-// Global variables
+// === Global variables === //
 const query = document.querySelector.bind(document);
 const winCombinations = [
   [1, 2, 3],
@@ -14,37 +14,49 @@ const winCombinations = [
 ];
 const endGameView = query(".end-game-view");
 const playingBoard = query(".playing-board");
+const playerScore = query(".player-score-number");
+const AIScore = query(".ai-score-number");
 
-// Game controller
-let turn, hasWon, maxRounds, playerOneChoices, playerTwoChoices, AIChoices;
+// === Game controller === //
+// Init game variables
+// let Game.turn, Game.hasWon, Game.maxRounds, Game.playerOneChoices: [], Game.playerTwoChoices, Game.AIchoices;
+// Player or AI clicks
 
-// Initialize or reset game
-const init = () => {
-  turn = 0;
-  hasWon = false;
-  maxRounds = 9;
-  playerOneChoices = [];
-  playerTwoChoices = [];
-  AIChoices = [];
+// Handle menu buttons
+query(".lower-section").addEventListener("click", function menuButtons(e) {
+  switch (e.target.classList[0]) {
+    case "play-new-game":
+      init();
+      break;
+    default:
+      break;
+  }
+});
+
+// === Game objects and functions === //
+// Game factory
+const Game = {
+  turn: 0,
+  hasWon: false,
+  maxRounds: 9,
+  playerOneChoices: [],
+  playerTwoChoices: [],
+  AIchoices: [],
 };
-
-init();
-
-//// Game objects
 // Player one factory
 const PlayerOne = {
   currentScore: 0,
   totalScore: 0,
 
   insertSymbol(e) {
-    playerOneChoices.push(+e.target.id);
+    Game.playerOneChoices.push(+e.target.id);
     e.target.insertAdjacentHTML(
       "afterbegin",
       `<p class="mark-circle clicked"></p>`
     );
-    checkForWin(playerOneChoices);
-    if (!hasWon) {
-      turn = 1;
+    checkForWin(Game.playerOneChoices);
+    if (!Game.hasWon) {
+      Game.turn = 1;
     }
   },
 };
@@ -54,7 +66,7 @@ const PlayerTwo = {
   totalScore: 0,
 
   insertSymbol(e) {
-    turn = 0;
+    Game.turn = 0;
     e.target.insertAdjacentHTML("afterbegin", `<p class="mark-cross">✖</p>`);
   },
 };
@@ -64,34 +76,28 @@ const AI = {
   totalScore: 0,
 
   insertSymbol(e) {
-    AIChoices.push(+e.target.id);
+    Game.AIchoices.push(+e.target.id);
     e.target.insertAdjacentHTML("afterbegin", `<p class="mark-cross">✖</p>`);
-    checkForWin(AIChoices);
-    if (!hasWon) {
-      turn = 0;
+    checkForWin(Game.AIchoices);
+    if (!Game.hasWon) {
+      Game.turn = 0;
     }
   },
 };
-
-// Player or AI clicks
-query(".game-field-container").addEventListener("click", function oneRound(e) {
-  --maxRounds;
-  if (maxRounds === 0) setTimeout(renderWinner, 1000);
-  if (
-    !e.target.classList.contains("game-box") ||
-    e.target.classList.contains("clicked")
-  )
-    return;
-  e.target.classList.add("clicked");
-  turn === 0 ? PlayerOne.insertSymbol(e) : AI.insertSymbol(e);
-
-  //Check if we have a winner during the current round
-  if (hasWon) {
-    query(".game-field-container").removeEventListener("click", oneRound);
-    setTimeout(renderWinner, 1000);
-  }
-});
-
+// Initialize game
+const init = () => {
+  endGameView.innerHTML = playingBoard.innerHTML = "";
+  playingBoard.style.visibility = "visible";
+  endGameView.style.visibility = "hidden";
+  Game.turn = 0;
+  Game.hasWon = false;
+  Game.maxRounds = 9;
+  Game.playerOneChoices = [];
+  Game.playerTwoChoices = [];
+  Game.AIchoices = [];
+  initGameField();
+  query(".game-field-container").addEventListener("click", oneRound);
+};
 // Check if the player or AI won after the current round
 const checkForWin = (playerArray) => {
   for (const combo of winCombinations) {
@@ -102,7 +108,7 @@ const checkForWin = (playerArray) => {
       currentCombo.splice(currentIndex, 1);
     });
     if (currentCombo.length === 0) {
-      hasWon = true;
+      Game.hasWon = true;
       return;
     }
   }
@@ -112,34 +118,79 @@ const renderWinner = () => {
   playingBoard.style.visibility = "hidden";
   endGameView.style.visibility = "visible";
 
-  if (hasWon) {
-    endGameView.insertAdjacentHTML(
-      "afterbegin",
-      `
-  <h1>${turn === 0 ? "You win :)" : "AI wins :("}</h1>
-  <h3 class>
-    ${
-      turn === 0
-        ? "Congratulations for the beautiful, challenging and exhausting game."
-        : "Better luck next time!"
+  if (Game.hasWon) {
+    // Handle playerOne win
+    if (Game.turn === 0) {
+      playerScore.textContent = PlayerOne.totalScore = ++PlayerOne.currentScore;
+      endGameView.insertAdjacentHTML(
+        "afterbegin",
+        `
+        <h1>You win :)</h1>
+        <h3>Congratulations for the beautiful, challenging and exhausting game.</h3>
+        <p>Start a new game or choose from the other options.</p>
+        `
+      );
+      // Handle AI win
+    } else {
+      AIScore.textContent = AI.totalScore = ++AI.currentScore;
+      endGameView.insertAdjacentHTML(
+        "afterbegin",
+        `
+          <h1>AI wins :(</h1>
+          <h3>Better luck next time!</h3>
+          <p>Start a new game or choose from the other options.</p>
+          `
+      );
     }
-  </h3>
-  <p>
-    Start a new game or choose from the other
-    options.
-  </p>
-`
-    );
+    // Handle tie
   } else {
     endGameView.insertAdjacentHTML(
       "afterbegin",
       `
-  <h1>Draw!</h1>
-  <p>
-    Start a new game or choose from the other
-    options.
-  </p>
-`
+          <h1>Tie!</h1>
+          <p>
+          Start a new game or choose from the other
+          options.
+          </p>
+          `
     );
   }
 };
+// Initialize game field
+const initGameField = () => {
+  for (let i = 1; i <= 9; i++) {
+    playingBoard.insertAdjacentHTML(
+      "afterbegin",
+      `<div class="game-box" id="${i}"></div>`
+    );
+  }
+};
+// One round game logic
+const oneRound = (e) => {
+  // Check if the click is withing a game box which is not already marked
+  if (
+    !e.target.classList.contains("game-box") ||
+    e.target.classList.contains("clicked")
+  )
+    return;
+  e.target.classList.add("clicked");
+  Game.turn === 0 ? PlayerOne.insertSymbol(e) : AI.insertSymbol(e);
+  Game.maxRounds--;
+  if (Game.maxRounds > 0) {
+    if (Game.hasWon) {
+      query(".game-field-container").removeEventListener("click", oneRound);
+      setTimeout(renderWinner, 1000);
+    }
+  } else {
+    setTimeout(renderWinner, 1000);
+  }
+};
+init();
+
+// MAKE AI
+
+const AIbrain = () => {
+  [...playingBoard.children].map((element) => console.log(element.id));
+};
+
+AIbrain();
