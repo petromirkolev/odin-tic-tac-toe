@@ -193,19 +193,44 @@ table {
 }
 /* Game pad styling */
 .game-field-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 73vh;
+  width: 50vw;
+}
+.playing-board {
+  visibility: visible;
+  position: absolute;
   display: grid;
   gap: 10px;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  width: 73vh;
-  height: 73vh;
+  width: 70vh;
+  height: 70vh;
   color: white;
 }
-.game-field-container div {
+.playing-board div {
   border: 4px solid rgba(0, 0, 0, 0.15);
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.end-game-view {
+  visibility: hidden;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5vh;
+  position: absolute;
+  font-size: 2.5em;
+}
+.end-game-view h1 {
+  font-size: 2em;
+  font-weight: bold;
 }
 .mark-circle {
   box-sizing: border-box;
@@ -216,7 +241,7 @@ table {
 }
 .mark-cross {
   color: rgba(0, 0, 0, 0.6);
-  font-size: calc(100% + 10em);
+  font-size: calc(100% + 7em);
 }
 .footer-container {
   width: 100vw;
