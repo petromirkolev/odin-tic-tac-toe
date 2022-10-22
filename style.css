@@ -135,7 +135,6 @@ table {
 /* General page layout styling */
 .page-container {
   font-family: "grunge";
-
   background-image: url("images/grunge-concret.jpg");
   background-size: cover;
   width: auto;
@@ -165,10 +164,18 @@ table {
 }
 .upper-section h3 {
   font-size: 3rem;
-  margin-right: -14vw;
 }
 .upper-section p {
-  font-size: 6rem;
+  font-size: 3rem;
+}
+.player-one,
+.player-two {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.onturn {
+  opacity: 0.3;
 }
 .lower-section {
   display: flex;
@@ -194,6 +201,7 @@ table {
 }
 /* Game pad styling */
 .game-field-container {
+  visibility: hidden;
   position: relative;
   display: flex;
   flex-direction: column;

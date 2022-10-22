@@ -12,22 +12,23 @@ const winCombinations = [
   [1, 5, 9],
   [3, 5, 7],
 ];
+let currentCombinations = winCombinations.slice();
 const endGameView = query(".end-game-view");
 const playingBoard = query(".playing-board");
-const playerScore = query(".player-score-number");
-const AIScore = query(".ai-score-number");
+const playerOneScore = query(".player-one-score-number");
+const playerTwoScore = query(".player-two-score-number");
+// const AIScore = query(".ai-score-number");
+const playerOne = query(".player-one");
+const playerTwo = query(".player-two");
 
 // === Game controller === //
-// Init game variables
-// let Game.turn, Game.hasWon, Game.maxRounds, Game.playerOneChoices: [], Game.playerTwoChoices, Game.AIchoices;
-// Player or AI clicks
-
 // Handle menu buttons
 query(".lower-section").addEventListener("click", function menuButtons(e) {
   switch (e.target.classList[0]) {
     case "play-new-game":
       init();
       break;
+    // TO DO THE REST
     default:
       break;
   }
@@ -41,7 +42,7 @@ const Game = {
   maxRounds: 9,
   playerOneChoices: [],
   playerTwoChoices: [],
-  AIchoices: [],
+  // AIchoices: [],
 };
 // Player one factory
 const PlayerOne = {
@@ -66,40 +67,48 @@ const PlayerTwo = {
   totalScore: 0,
 
   insertSymbol(e) {
-    Game.turn = 0;
+    Game.playerTwoChoices.push(+e.target.id);
     e.target.insertAdjacentHTML("afterbegin", `<p class="mark-cross">✖</p>`);
-  },
-};
-// AI factory
-const AI = {
-  currentScore: 0,
-  totalScore: 0,
-
-  insertSymbol(e) {
-    Game.AIchoices.push(+e.target.id);
-    e.target.insertAdjacentHTML("afterbegin", `<p class="mark-cross">✖</p>`);
-    checkForWin(Game.AIchoices);
+    checkForWin(Game.playerTwoChoices);
     if (!Game.hasWon) {
       Game.turn = 0;
     }
   },
 };
+// AI factory
+// const AI = {
+//   currentScore: 0,
+//   totalScore: 0,
+
+//   insertSymbol(e) {
+//     Game.AIchoices.push(+e.target.id);
+//     e.target.insertAdjacentHTML("afterbegin", `<p class="mark-cross">✖</p>`);
+//     checkForWin(Game.AIchoices);
+//     if (!Game.hasWon) {
+//       Game.turn = 0;
+//     }
+//   },
+// };
 // Initialize game
 const init = () => {
   endGameView.innerHTML = playingBoard.innerHTML = "";
   playingBoard.style.visibility = "visible";
   endGameView.style.visibility = "hidden";
+  playerTwo.classList.add("onturn");
+  playerOne.classList.remove("onturn");
   Game.turn = 0;
   Game.hasWon = false;
   Game.maxRounds = 9;
   Game.playerOneChoices = [];
   Game.playerTwoChoices = [];
-  Game.AIchoices = [];
+
+  // Game.AIchoices = [];
   initGameField();
   query(".game-field-container").addEventListener("click", oneRound);
 };
 // Check if the player or AI won after the current round
 const checkForWin = (playerArray) => {
+  let i = 0;
   for (const combo of winCombinations) {
     let currentCombo = combo.slice();
     playerArray.map((num) => {
@@ -121,23 +130,25 @@ const renderWinner = () => {
   if (Game.hasWon) {
     // Handle playerOne win
     if (Game.turn === 0) {
-      playerScore.textContent = PlayerOne.totalScore = ++PlayerOne.currentScore;
+      playerOneScore.textContent = PlayerOne.totalScore =
+        ++PlayerOne.currentScore;
       endGameView.insertAdjacentHTML(
         "afterbegin",
         `
-        <h1>You win :)</h1>
+        <h1>Player one wins!</h1>
         <h3>Congratulations for the beautiful, challenging and exhausting game.</h3>
         <p>Start a new game or choose from the other options.</p>
         `
       );
-      // Handle AI win
+      // Handle playerTwo win
     } else {
-      AIScore.textContent = AI.totalScore = ++AI.currentScore;
+      playerTwoScore.textContent = PlayerTwo.totalScore =
+        ++PlayerTwo.currentScore;
       endGameView.insertAdjacentHTML(
         "afterbegin",
         `
-          <h1>AI wins :(</h1>
-          <h3>Better luck next time!</h3>
+          <h1>Player two wins!</h1>
+          <h3>Congratulations for the beautiful, challenging and exhausting game.</h3>
           <p>Start a new game or choose from the other options.</p>
           `
       );
@@ -174,7 +185,8 @@ const oneRound = (e) => {
   )
     return;
   e.target.classList.add("clicked");
-  Game.turn === 0 ? PlayerOne.insertSymbol(e) : AI.insertSymbol(e);
+  playerActiveSwitch();
+  Game.turn === 0 ? PlayerOne.insertSymbol(e) : PlayerTwo.insertSymbol(e);
   Game.maxRounds--;
   if (Game.maxRounds > 0) {
     if (Game.hasWon) {
@@ -185,12 +197,20 @@ const oneRound = (e) => {
     setTimeout(renderWinner, 1000);
   }
 };
-init();
-
-// MAKE AI
-
-const AIbrain = () => {
-  [...playingBoard.children].map((element) => console.log(element.id));
+// Switch active player
+const playerActiveSwitch = () => {
+  if (Game.turn === 0) {
+    playerOne.classList.add("onturn");
+    playerTwo.classList.remove("onturn");
+  } else {
+    playerTwo.classList.add("onturn");
+    playerOne.classList.remove("onturn");
+  }
 };
 
-AIbrain();
+init();
+
+// CREATE AI TO DO
+
+// const AIbrain = () => {
+//   });
